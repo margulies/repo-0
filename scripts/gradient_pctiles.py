@@ -1,22 +1,24 @@
+#!/usr/bin/env python3
+# encoding: utf-8
 
-### VARIABLES TO SET BEFORE RUNNING
-# directory containing subdirectories named fter subject IDs that contain the timeseries and surface files
-root_dir = 
-# directory where all intermediate files and the final output will be saved
-output_dir = 
-# list of IDs of subjects to include in the analyses
-subj_id = np.array([])
+""" Description """
 
-#-----------------------------------------------------------------------------------
-
+import argparse
 import nibabel as nib
 import numpy as np
 from scipy import stats
 import xml.etree.ElementTree as xml
 import pandas as pd
-from nilearn.plotting import plot_surf_stat_map
-from matplotlib import pyplot as plt
 
+parser = argparse.ArgumentParser(description='A test program.')
+parser.add_argument("-s", "--subj_id", help="Subject ID", type=int)
+parser.add_argument("-o", "--output_dir", help="Output directory", type=str)
+parser.add_argument("-r", "--root_dir", help="Root directory", type=str)
+args = parser.parse_args()
+
+subj_id = args.subj_id
+output_dir = args.output_dir
+root_dir = args.root_dir
 
 # https://github.com/AthenaEPI/logpar/blob/master/logpar/utils/cifti_utils.py
 def extract_matrixIndicesMap(cifti_header, direction):
@@ -167,7 +169,7 @@ for subj_grad in subj_id:
     del grads
 # save output        
 gradientile_df.to_csv(f'{output_dir}gradientiles.csv',index=False)
-print("Done!")
+# print("Done!")
 
 #-----------------------------------------------------------------------------------
 
